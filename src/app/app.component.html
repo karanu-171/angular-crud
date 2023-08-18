@@ -1,21 +1,24 @@
-<form #f="ngForm" (ngSubmit)="addData(f)">
-  <input type="text" name="userName" ngModel/>
-  <br>
-  <input type="text" name="email" ngModel/>
-  <br>
-  <input type="password" name="password" ngModel/>
-  <br>
-  <button type="submit"> Save Data</button>
-</form>
-
-<br>
-<br>
-<br>
-
-<ul>
-  <li ngFor="let data of userData |async">
-    {{ data.userName}}
-    <br>
-    {{ data.email}}
-  </li>
-</ul>
+<div class="main">
+  <div class="form">
+    <h2>Performing CRUD Operation</h2>
+    <form #f="ngForm" (ngSubmit)="addData(f)">
+      <input type="text" placeholder="user name" name="userName" ngModel class="input-field"/>
+      <br/>
+      <input type="text" placeholder="email" name="email" ngModel class="input-field"/>
+      <br/>
+      <input type="password" placeholder="password" name="password" ngModel class="input-field"/>
+    <br/>
+    <button type="submit" class="save"> Save Data</button>
+  </form>
+  
+  <div class="display">
+    <ul>
+      <li *ngFor="let data of userData | async" class="lists">
+        {{ data.userName }} / {{ data.email }}
+        <button (click)="updateData(data.id)" class="save">Edit</button>
+        <button (click)="deleteData(data.id)" class="save">Delete</button>
+      </li>
+    </ul>
+  </div>
+</div>
+</div>

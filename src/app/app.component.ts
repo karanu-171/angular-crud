@@ -3,7 +3,10 @@ import {
   Firestore,
   collection,
   addDoc,
-  collectionData
+  collectionData,
+  doc,
+  updateDoc,
+  deleteDoc
 } from "@angular/fire/firestore";
 import {Observable} from 'rxjs';
 
@@ -14,7 +17,7 @@ import {Observable} from 'rxjs';
 })
 export class AppComponent {
   title = 'crud operation';
-  userData: Observable<any>;
+  userData: Observable<any[]>;
 
   constructor (private firestore: Firestore) {
     this.getData()
@@ -32,11 +35,34 @@ export class AppComponent {
   
   getData() {
     const collectionInstance = collection(this.firestore, 'users')
-    collectionData(collectionInstance)
+    collectionData(collectionInstance, {idField: 'id'})
     .subscribe(val => {
       console.log(val)
     })
 
-    this.userData = collectionData(collectionInstance)
+    this.userData = collectionData(collectionInstance, {idField: 'id'})
+  }
+
+  updateData(id: string) {
+    const docInstance = doc(this.firestore, 'users', id)
+    const updatedData = {
+      userName: 'updatedName'
+    }
+    updateDoc(docInstance, updatedData).then(() => {
+      console.log('Data saved')
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
+
+  deleteData(id: string) {
+    const docInstance = doc(this.firestore, 'users', id)
+    deleteDoc(docInstance).then(()=> {
+      console.log('Data deleted successfully')
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
   }
 }
